@@ -1,8 +1,12 @@
 package service
 
-import "github.com/prosto-kosmos/RestAPI_Go/pkg/repository"
+import (
+	todo "github.com/prosto-kosmos/RestAPI_Go"
+	"github.com/prosto-kosmos/RestAPI_Go/pkg/repository"
+)
 
 type Authorization interface {
+	CreateUser(user todo.User) (int, error)
 }
 
 type TodoList interface {
@@ -19,5 +23,7 @@ type Service struct {
 
 // NewService - конструктор структуры Service
 func NewService(repos *repository.Repository) *Service {
-	return &Service{}
+	return &Service{
+		Authorization: NewAuthService(repos.Authorization),
+	}
 }
